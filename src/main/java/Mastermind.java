@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Mastermind {
 
     private final static int NB_ITEMS = 5;
-    private final static int NB_TRIALS = 5;
+    public final static int NB_TRIALS = 5;
 
     private final static Scanner scanner = new Scanner(System.in);
 
@@ -22,7 +22,6 @@ public class Mastermind {
                 System.out.println("Ce jeu n'est pas encore disponible, choisissez-en un autre.");
             }
         } while(continueGame);
-
     }
 
     private static GameType gameTypeChoice () {
