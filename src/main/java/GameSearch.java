@@ -1,96 +1,82 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
-public class GameSearch {
+public class GameSearch extends Game {
 
-    private final static Scanner scanner = new Scanner(System.in);
 
-    public Boolean execute (GameMode gameMode) {
-        System.out.println("Vous avez lancé le jeu SEARCH en mode "+ gameMode);
-        if (gameMode.equals(GameMode.CHALLENGER)) {
-            this.executeGameChallenger();
-        }
-        else if (gameMode.equals(GameMode.DEFENDER)) {
-            this.executeGameDefender();
-        }
-        else if (gameMode.equals(GameMode.DUEL)) {
-            return this.executeGameDuel();
-        }
-        return false;
+    protected void executeGameChallenger() {
     }
 
-    private void executeGameChallenger() {
+    protected void executeGameDefender() {
     }
 
-    private void executeGameDefender() {
-    }
-
-    private Boolean executeGameDuel(){
+    /**
+     * player and computer play together until one of us wins.
+     * @return false if you want to stop the program after the game finish .
+     */
+    protected Boolean executeGameDuel(){
         ArrayList<Integer> combiComputerSecret = this.generateComputerSecret();
         ArrayList<Integer> combiPlayerSecret = this.getPlayerSecret();
-        System.out.println("combi secrète" + combiComputerSecret.toString());
+
+        //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.NB_TRIALS; i++) {
-            ArrayList<Integer> propositionComputer =  this.getCombiComputer();
-            if (this.testGameDuel(propositionComputer, combiPlayerSecret)) {
-                System.out.println("Vous avez trouvé la bonne combinaison!");
-                System.out.println("L'ordinateur a gagné!");
-                return false;
-            }
-            System.out.println("Retentez votre chance!");
-            ArrayList<Integer> propositionPlayer = this.getCombiPlayer();
-            if (this.testGameDuel(propositionPlayer, combiComputerSecret)) {
-                System.out.println("Vous avez trouvé la bonne combinaison!");
-                System.out.println("Le joueur a gagné!");
-                return false;
-            }
+            System.out.println("**********************");
+            System.out.println("Tour de l'ordinateur");
+            if (playGameTour(combiPlayerSecret, true)) { return false; }
+            System.out.println("**********************");
+            System.out.println("Tour du joueur");
+            if (playGameTour(combiComputerSecret, false)) { return false; }
         }
         return false;
     }
 
-    private ArrayList<Integer> getCombiComputer () {
-        ArrayList<Integer> combi = new ArrayList<Integer>();
-        for(int i = 0; i < 5; i++) {
-            Double randomDouble = Math.random()* 10;
-            Integer randomInt = randomDouble.intValue();
-            combi.add(randomInt);
-        }
-        return combi;
-    }
-
-    private ArrayList<Integer> getCombiPlayer() {
-        ArrayList<Integer> combi = new ArrayList<Integer>();
-        while(true) {
-            int answer = 0;
-            System.out.println("Entrez votre combinaison à 5 chiffres :");
-            try {
-                answer = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Vous devez entrer un nombre à 5 chiffres :");
-                scanner.next();
+    /**
+     * Compare tour with the secret combinaison
+     * @param secret the secret to find
+     * @param amIComputer true if computer play false if player play
+     * @return true for win and false for loose
+     */
+    private boolean playGameTour(ArrayList<Integer> secret, Boolean amIComputer) {
+        ArrayList<Integer> proposition =  amIComputer ? this.getCombiComputer() : this.getCombiPlayer("combinaison");
+        String difference = this.hasDifferences(proposition, secret);
+        if (difference == null) {
+            System.out.println("Vous avez trouvé la bonne combinaison!");
+            if (amIComputer) {
+                System.out.println("L'ordinateur a gagné!");
+            } else {
+                System.out.println("Le joueur a gagné!");
             }
-            if (answer > 10000 && answer <= 99999) {
-                while (answer > 0) {
-                    combi.add(0 , answer % 10);
-                    answer = answer / 10;
-                }
-                return combi;
+            return true;
+        }
+        System.out.println(difference + " Retentez votre chance!");
+        return false;
+    }
+
+    /**
+     * calculate the differences between proposition and secret
+     * @param proposition
+     * @param secret
+     * @return null if there is no differences or the differences (eg. - + - = +)
+     */
+    private String hasDifferences(ArrayList<Integer> proposition, ArrayList<Integer> secret) {
+        if (proposition.equals(secret)) {
+           return null;
+        }
+        StringBuilder  difference = new StringBuilder();
+        for(int i = 0; i<proposition.size(); i++) {
+            int propositionDigit = proposition.get(i);
+            int secretDigit = secret.get(i);
+            if(secretDigit-propositionDigit>0) {
+                difference.append(" +");
+            } else if (secretDigit-propositionDigit<0) {
+                difference.append(" -");
+            } else {
+                difference.append(" =");
             }
         }
+        return difference.toString();
     }
 
-    private ArrayList<Integer> generateComputerSecret() {
-       return this.getCombiComputer();
-    }
 
-    private ArrayList<Integer> getPlayerSecret() {
-        System.out.println("Entrez votre combinaison secrète.");
-        return this.getCombiPlayer();
-    }
-
-    private  Boolean testGameDuel(ArrayList<Integer> proposition, ArrayList<Integer> secret) {
-        return proposition.equals(secret);
-    }
 }
 
 

@@ -17,13 +17,17 @@ public class Mastermind {
             GameMode gameMode = Mastermind.gameModeChoice();
             if (gameType.equals(GameType.SEARCH)) {
                 GameSearch gameSearch = new GameSearch();
-                continueGame = gameSearch.execute(gameMode);
+                continueGame = gameSearch.execute(gameMode,gameType);
             } else {
                 System.out.println("Ce jeu n'est pas encore disponible, choisissez-en un autre.");
             }
         } while(continueGame);
     }
 
+    /**
+     * Display the menu to choose the game type and get answer
+     * @return the chosen game type
+     */
     private static GameType gameTypeChoice () {
         while(true) {
             int answer = 0;
@@ -44,6 +48,10 @@ public class Mastermind {
         }
     }
 
+    /**
+     * Display the menu to choose the game mode and get answer
+     * @return the chosen game mode
+     */
     private static GameMode gameModeChoice () {
         while(true) {
             int answer = 0;
