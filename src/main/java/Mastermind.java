@@ -15,12 +15,14 @@ public class Mastermind {
         do {
             GameType gameType = Mastermind.gameTypeChoice();
             GameMode gameMode = Mastermind.gameModeChoice();
+            Game game = null;
             if (gameType.equals(GameType.SEARCH)) {
-                GameSearch gameSearch = new GameSearch();
-                continueGame = gameSearch.execute(gameMode,gameType);
-            } else {
-                System.out.println("Ce jeu n'est pas encore disponible, choisissez-en un autre.");
+                game = new GameSearch();
             }
+            else if (gameType.equals(GameType.MASTERMIND)) {
+                game = new GameMastermind();
+            }
+            continueGame = game.execute(gameMode,gameType);
         } while(continueGame);
     }
 
