@@ -54,13 +54,6 @@ public abstract class Game {
     }
 
     /**
-     * Reset the list of proposition already choose by the computer. Use, for example, when a new game start.
-     */
-    private void resetAlreadySeenComputerProposition() {
-        this.alreadySeenComputerProposition = new ArrayList<ArrayList<Integer>>();
-    }
-
-    /**
      * computer generates five random digits combination
      * @return a list containing the five digits
      */
@@ -75,25 +68,36 @@ public abstract class Game {
     }
 
     /**
+     * Reset the list of proposition already choose by the computer. Use, for example, when a new game start.
+     */
+    private void resetAlreadySeenComputerProposition() {
+        this.alreadySeenComputerProposition = new ArrayList<ArrayList<Integer>>();
+    }
+
+    /**
      * Ask to player a five digit combination and retry until it succeeded
      * @return a list containing the five digits
      */
     private ArrayList<Integer> getCombiPlayer(String description) {
-        ArrayList<Integer> combi = new ArrayList<Integer>();
         while(true) {
-            int answer = 0;
+            ArrayList<Integer> combi = new ArrayList<Integer>();
+            String answer = "";
+            Boolean hasError = false;
             System.out.println("Entrez votre "+ description +" à 5 chiffres :");
             try {
-                answer = scanner.nextInt();
+                answer = scanner.next();
             } catch (InputMismatchException e) {
                 System.out.println("Vous devez entrer votre "+ description +" à 5 chiffres :");
                 scanner.next();
             }
-            if (answer > 10000 && answer <= 99999) {
-                while (answer > 0) {
-                    combi.add(0 , answer % 10);
-                    answer = answer / 10;
+            for (char c : answer.toCharArray()) {
+                int currentDigit = Character.getNumericValue(c);
+                if (currentDigit == -1) {
+                    hasError = true;
                 }
+                combi.add(0 , Character.getNumericValue(c));
+            }
+            if (combi.size() == 5 && !hasError) {
                 return combi;
             }
         }
@@ -103,7 +107,7 @@ public abstract class Game {
      * @return a list containing five random digits
      */
     private ArrayList<Integer> generateComputerSecret() {
-        return this.getCombiComputer();
+        return this.generateRandomCombi();
     }
 
     /**
