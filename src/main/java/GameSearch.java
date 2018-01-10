@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class GameSearch extends Game {
 
-
     /**
      * calculate the differences between proposition and secret
      * @param proposition
@@ -10,6 +9,7 @@ public class GameSearch extends Game {
      * @return null if there is no differences or the differences (eg. - + - = +)
      */
     protected String hasDifferences(ArrayList<Integer> proposition, ArrayList<Integer> secret) {
+        Game.logger.trace("GameSearch.hasDifferences", proposition, secret);
         if (proposition.equals(secret)) {
            return null;
         }

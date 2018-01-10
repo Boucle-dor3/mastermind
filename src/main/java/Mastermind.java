@@ -1,12 +1,15 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Mastermind {
 
-    private final static int NB_ITEMS = 5;
-    public final static int NB_TRIALS = 5;
+    public final static GameConfig gameConfig = new GameConfig();
 
     private final static Scanner scanner = new Scanner(System.in);
+    private final static Logger logger = LogManager.getLogger(Mastermind.class.getName());
 
     public static void main (String[] args){
 
@@ -39,6 +42,7 @@ public class Mastermind {
             try {
                 answer = scanner.nextInt();
             } catch (InputMismatchException e) {
+                Mastermind.logger.warn("User does not enter a digit.");
                 System.out.println("Vous devez entrer un chiffre.");
                 scanner.next();
             }
@@ -64,10 +68,12 @@ public class Mastermind {
             try {
                 answer = scanner.nextInt();
             } catch (InputMismatchException e) {
+                Mastermind.logger.warn("User does not enter a digit.");
                 System.out.println("Vous devez entrer un chiffre.");
                 scanner.next();
             }
             if (answer > 0 && answer <= 3) {
+                Mastermind.logger.warn("User enter a not existing choice.");
                 GameMode answerGameMode = GameMode.values()[answer - 1];
                 System.out.println("Vous avez choisi " + answerGameMode);
                 return answerGameMode;

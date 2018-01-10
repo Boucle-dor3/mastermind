@@ -1,4 +1,6 @@
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -12,6 +14,8 @@ public abstract class Game {
 
     protected abstract String hasDifferences(ArrayList<Integer> proposition, ArrayList<Integer> secret);
 
+    protected final static Logger logger = LogManager.getLogger(Game.class.getName());
+
     /**
      * Start the game depending on the game mode.
      * @param gameMode the mode in which the game is launched
@@ -22,6 +26,7 @@ public abstract class Game {
         System.out.println("----------------------------------------");
         this.resetAlreadySeenComputerProposition();
 
+        Game.logger.info("execute", gameType, gameMode);
         if (gameMode.equals(GameMode.CHALLENGER)) {
             this.executeGameChallenger();
         }
@@ -41,6 +46,8 @@ public abstract class Game {
     private ArrayList<Integer> getCombiComputer() {
         ArrayList<Integer> combi;
         Boolean isNew;
+
+        Game.logger.info("compare combinaisons");
         do {
             isNew = true;
             combi = this.generateRandomCombi();
@@ -58,8 +65,10 @@ public abstract class Game {
      * @return a list containing the five digits
      */
     private ArrayList<Integer> generateRandomCombi() {
+
+        Game.logger.info("Generate a random list.");
         ArrayList<Integer> combi = new ArrayList<Integer>();
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < Mastermind.gameConfig.getNbItems(); i++) {
             Double randomDouble = Math.random()* 10;
             Integer randomInt = randomDouble.intValue();
             combi.add(randomInt);
@@ -71,23 +80,28 @@ public abstract class Game {
      * Reset the list of proposition already choose by the computer. Use, for example, when a new game start.
      */
     private void resetAlreadySeenComputerProposition() {
+        Game.logger.info("resetAlreadySeenComputerProposition");
         this.alreadySeenComputerProposition = new ArrayList<ArrayList<Integer>>();
     }
 
     /**
      * Ask to player a five digit combination and retry until it succeeded
+     * @param description "secret" or "combination"
      * @return a list containing the five digits
      */
     private ArrayList<Integer> getCombiPlayer(String description) {
+
+        Game.logger.info("getCombiPlayer", description);
         while(true) {
             ArrayList<Integer> combi = new ArrayList<Integer>();
             String answer = "";
             Boolean hasError = false;
-            System.out.println("Entrez votre "+ description +" à 5 chiffres :");
+            System.out.println("Entrez votre " + description + " à " + Mastermind.gameConfig.getNbItems() + "chiffres :");
             try {
                 answer = scanner.next();
             } catch (InputMismatchException e) {
-                System.out.println("Vous devez entrer votre "+ description +" à 5 chiffres :");
+                Game.logger.warn("User does not enter a digit");
+                System.out.println("Vous devez entrer votre " + description + " à " + Mastermind.gameConfig.getNbItems() + " chiffres :");
                 scanner.next();
             }
             for (char c : answer.toCharArray()) {
@@ -97,7 +111,7 @@ public abstract class Game {
                 }
                 combi.add(0 , Character.getNumericValue(c));
             }
-            if (combi.size() == 5 && !hasError) {
+            if (combi.size() == Mastermind.gameConfig.getNbItems() && !hasError) {
                 return combi;
             }
         }
@@ -107,6 +121,7 @@ public abstract class Game {
      * @return a list containing five random digits
      */
     private ArrayList<Integer> generateComputerSecret() {
+        Game.logger.info("generateComputerSecret");
         return this.generateRandomCombi();
     }
 
@@ -114,6 +129,7 @@ public abstract class Game {
      * @return a list containing five digits chosen by player
      */
     private ArrayList<Integer> getPlayerSecret() {
+        Game.logger.info("getPlayerSecret");
         return this.getCombiPlayer("secret");
     }
 
@@ -124,8 +140,10 @@ public abstract class Game {
     private Boolean executeGameChallenger() {
         ArrayList<Integer> combiComputerSecret = this.generateComputerSecret();
 
+
+        Game.logger.info("executeGameChallenger with combination secret of computer");
         //System.out.println("combi secrète" + combiComputerSecret.toString());
-        for (int i = 0; i < Mastermind.NB_TRIALS; i++) {
+        for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             System.out.println("**********************");
             System.out.println("Tour du joueur");
             if (playGameTour(combiComputerSecret, false)) { return false; }
@@ -142,8 +160,9 @@ public abstract class Game {
     private Boolean executeGameDefender() {
         ArrayList<Integer> combiPlayerSecret = this.getPlayerSecret();
 
+        Game.logger.info( "executeGameDefender with combination secret of player" );
         //System.out.println("combi secrète" + combiComputerSecret.toString());
-        for (int i = 0; i < Mastermind.NB_TRIALS; i++) {
+        for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             System.out.println("**********************");
             System.out.println("Tour de l'ordinateur");
             if (playGameTour(combiPlayerSecret, true)) { return false; }
@@ -160,8 +179,10 @@ public abstract class Game {
         ArrayList<Integer> combiComputerSecret = this.generateComputerSecret();
         ArrayList<Integer> combiPlayerSecret = this.getPlayerSecret();
 
+        Game.logger.info("executeGameDuel with each tour of each player");
+
         //System.out.println("combi secrète" + combiComputerSecret.toString());
-        for (int i = 0; i < Mastermind.NB_TRIALS; i++) {
+        for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             System.out.println("**********************");
             System.out.println("Tour de l'ordinateur");
             if (playGameTour(combiPlayerSecret, true)) { return false; }
@@ -179,6 +200,8 @@ public abstract class Game {
      * @return true for win and false for loose
      */
     private boolean playGameTour(ArrayList<Integer> secret, Boolean amIComputer) {
+
+        Game.logger.trace("playGameTour", secret, amIComputer);
         ArrayList<Integer> proposition =  amIComputer ? this.getCombiComputer() : this.getCombiPlayer("combinaison");
         String difference = this.hasDifferences(proposition, secret);
         if (difference == null) {

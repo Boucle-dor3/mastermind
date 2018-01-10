@@ -9,6 +9,7 @@ public class GameMastermind extends Game {
      * @return null if there is no differences or the differences (eg. 0 présent, 1 bien placé)
      */
     protected String hasDifferences(ArrayList<Integer> proposition, ArrayList<Integer> secret) {
+        Game.logger.trace("GameMastermind.hasDifferences", proposition, secret);
         if (proposition.equals(secret)) {
             return null;
         }
