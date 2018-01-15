@@ -1,3 +1,7 @@
+package com.projet3.mastermind;
+
+import com.projet3.mastermind.config.GameConfig;
+import com.projet3.mastermind.games.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,6 +38,7 @@ public class Mastermind {
      * @return the chosen game type
      */
     private static GameType gameTypeChoice () {
+        Mastermind.logger.info("gameTypeChoice");
         while(true) {
             int answer = 0;
             System.out.println("Quel type choisissez-vous?");
@@ -59,6 +64,7 @@ public class Mastermind {
      * @return the chosen game mode
      */
     private static GameMode gameModeChoice () {
+        Mastermind.logger.info("gameModeChoice");
         while(true) {
             int answer = 0;
             System.out.println("Quel mode choisissez-vous?");

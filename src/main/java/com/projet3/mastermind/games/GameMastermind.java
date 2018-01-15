@@ -1,3 +1,5 @@
+package com.projet3.mastermind.games;
+
 import java.util.ArrayList;
 
 public class GameMastermind extends Game {

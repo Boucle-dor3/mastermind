@@ -1,3 +1,5 @@
+package com.projet3.mastermind.config;
+
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
@@ -15,7 +17,7 @@ public class GameConfig {
 
     public GameConfig() {
 
-        GameConfig.logger.info("Load app config from config.properties.");
+        GameConfig.logger.info("Load app projet3.mastermind.config from projet3.mastermind.config.properties.");
 
         Configurations configs = new Configurations();
         try

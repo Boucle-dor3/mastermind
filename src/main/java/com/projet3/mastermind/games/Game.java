@@ -1,6 +1,8 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package com.projet3.mastermind.games;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.projet3.mastermind.Mastermind;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
