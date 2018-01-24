@@ -20,11 +20,11 @@ public class GameSearch extends Game {
             int propositionDigit = proposition.get(i);
             int secretDigit = secret.get(i);
             if(secretDigit-propositionDigit>0) {
-                differences.append(" +");
+                differences.append(" + ");
             } else if (secretDigit-propositionDigit<0) {
-                differences.append(" -");
+                differences.append(" - ");
             } else {
-                differences.append(" =");
+                differences.append(" = ");
             }
         }
         return differences.toString();

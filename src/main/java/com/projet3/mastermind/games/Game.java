@@ -98,7 +98,7 @@ public abstract class Game {
             ArrayList<Integer> combi = new ArrayList<Integer>();
             String answer = "";
             Boolean hasError = false;
-            System.out.println("Entrez votre " + description + " à " + Mastermind.gameConfig.getNbItems() + "chiffres :");
+            System.out.println("Entrez votre " + description + " à " + Mastermind.gameConfig.getNbItems() + " chiffres :");
             try {
                 answer = scanner.next();
             } catch (InputMismatchException e) {
@@ -111,7 +111,7 @@ public abstract class Game {
                 if (currentDigit == -1) {
                     hasError = true;
                 }
-                combi.add(0 , Character.getNumericValue(c));
+                combi.add(Character.getNumericValue(c));
             }
             if (combi.size() == Mastermind.gameConfig.getNbItems() && !hasError) {
                 return combi;
@@ -146,8 +146,9 @@ public abstract class Game {
         Game.logger.info("executeGameChallenger with combination secret of computer");
         //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
+            Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
             System.out.println("**********************");
-            System.out.println("Tour du joueur");
+            System.out.println("Tour du joueur (" + tryCount + " essais restants)");
             if (playGameTour(combiComputerSecret, false)) { return false; }
         }
         System.out.println("La combi secrète était " + combiComputerSecret.toString());
@@ -165,8 +166,9 @@ public abstract class Game {
         Game.logger.info( "executeGameDefender with combination secret of player" );
         //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
+            Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
             System.out.println("**********************");
-            System.out.println("Tour de l'ordinateur");
+            System.out.println("Tour de l'ordinateur (" + tryCount + " essais restants)");
             if (playGameTour(combiPlayerSecret, true)) { return false; }
         }
 
@@ -185,13 +187,18 @@ public abstract class Game {
 
         //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
+            Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
             System.out.println("**********************");
-            System.out.println("Tour de l'ordinateur");
-            if (playGameTour(combiPlayerSecret, true)) { return false; }
+            System.out.println("Tour de l'ordinateur(" + tryCount + " essais restants)");
+            if (playGameTour(combiPlayerSecret, true)) {
+                System.out.println("La combi secrète était " + combiComputerSecret.toString());
+                return false;
+            }
             System.out.println("**********************");
-            System.out.println("Tour du joueur");
+            System.out.println("Tour du joueur(" + tryCount + " essais restants)");
             if (playGameTour(combiComputerSecret, false)) { return false; }
         }
+        System.out.println("La combi secrète était " + combiComputerSecret.toString());
         return false;
     }
 
