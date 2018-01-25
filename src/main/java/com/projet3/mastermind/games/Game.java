@@ -99,19 +99,13 @@ public abstract class Game {
             String answer = "";
             Boolean hasError = false;
             System.out.println("Entrez votre " + description + " à " + Mastermind.gameConfig.getNbItems() + " chiffres :");
-            try {
-                answer = scanner.next();
-            } catch (InputMismatchException e) {
-                Game.logger.warn("User does not enter a digit");
-                System.out.println("Vous devez entrer votre " + description + " à " + Mastermind.gameConfig.getNbItems() + " chiffres :");
-                scanner.next();
-            }
+            answer = scanner.next();
             for (char c : answer.toCharArray()) {
                 int currentDigit = Character.getNumericValue(c);
                 if (currentDigit == -1) {
                     hasError = true;
                 }
-                combi.add(Character.getNumericValue(c));
+                combi.add(currentDigit);
             }
             if (combi.size() == Mastermind.gameConfig.getNbItems() && !hasError) {
                 return combi;
