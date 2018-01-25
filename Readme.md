@@ -9,7 +9,7 @@ In the game search, you indicate the figure is larger or smaller.
 Then, in the game mastermind, you say if the figure is in the right or wrong place. 
 
 ## Prerequisites
-You need to java 9. You also need a JDK  if you want to compile the project.
+You need to java 1.8. You also need a JDK  if you want to compile the project.
 
 
 ## Installing
