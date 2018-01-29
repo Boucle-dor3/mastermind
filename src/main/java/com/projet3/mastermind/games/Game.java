@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import com.projet3.mastermind.Mastermind;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class Game {
@@ -24,6 +23,7 @@ public abstract class Game {
      * @return false if you want to stop the program after the game finish
      */
     public Boolean execute (GameMode gameMode, GameType gameType) {
+        System.out.println();
         System.out.println("Vous avez lancé le jeu " + gameType + " en mode " + gameMode);
         System.out.println("----------------------------------------");
         this.resetAlreadySeenComputerProposition();
@@ -36,9 +36,27 @@ public abstract class Game {
             this.executeGameDefender();
         }
         else if (gameMode.equals(GameMode.DUEL)) {
-            return this.executeGameDuel();
+            this.executeGameDuel();
         }
-        return false;
+        return this.wantToContinue();
+    }
+
+    /**
+     * Ask to the player if he wants to continue to play
+     * @return if player want to continue the game
+     */
+    private Boolean wantToContinue () {
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println("Voulez-vous continuer à jouer? O pour oui et N pour non.");
+        String answer = scanner.next();
+        if (answer.equals("N")) {
+            System.out.println("A bientôt !");
+            return false;
+        } else if (answer.equals("O")) {
+            return true;
+        }
+        return this.wantToContinue();
     }
 
     /**
@@ -141,6 +159,7 @@ public abstract class Game {
         //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
+            System.out.println();
             System.out.println("**********************");
             System.out.println("Tour du joueur (" + tryCount + " essais restants)");
             if (playGameTour(combiComputerSecret, false)) { return false; }
@@ -161,6 +180,7 @@ public abstract class Game {
         //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
+            System.out.println();
             System.out.println("**********************");
             System.out.println("Tour de l'ordinateur (" + tryCount + " essais restants)");
             if (playGameTour(combiPlayerSecret, true)) { return false; }
@@ -182,12 +202,14 @@ public abstract class Game {
         //System.out.println("combi secrète" + combiComputerSecret.toString());
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
+            System.out.println();
             System.out.println("**********************");
             System.out.println("Tour de l'ordinateur(" + tryCount + " essais restants)");
             if (playGameTour(combiPlayerSecret, true)) {
                 System.out.println("La combi secrète était " + combiComputerSecret.toString());
                 return false;
             }
+            System.out.println();
             System.out.println("**********************");
             System.out.println("Tour du joueur(" + tryCount + " essais restants)");
             if (playGameTour(combiComputerSecret, false)) { return false; }

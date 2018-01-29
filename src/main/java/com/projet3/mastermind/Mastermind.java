@@ -41,6 +41,7 @@ public class Mastermind {
         Mastermind.logger.info("gameTypeChoice");
         while(true) {
             int answer = 0;
+            System.out.println();
             System.out.println("Quel type choisissez-vous?");
             System.out.println("1 - Recherche ");
             System.out.println("2 - Mastermind ");
@@ -67,6 +68,7 @@ public class Mastermind {
         Mastermind.logger.info("gameModeChoice");
         while(true) {
             int answer = 0;
+            System.out.println();
             System.out.println("Quel mode choisissez-vous?");
             System.out.println("1 - Challenger ");
             System.out.println("2 - Défenseur ");
