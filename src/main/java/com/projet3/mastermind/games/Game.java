@@ -120,7 +120,7 @@ public abstract class Game {
             answer = scanner.next();
             for (char c : answer.toCharArray()) {
                 int currentDigit = Character.getNumericValue(c);
-                if (currentDigit == -1) {
+                if (currentDigit < 0 || currentDigit > 9 ) {
                     hasError = true;
                 }
                 combi.add(currentDigit);
