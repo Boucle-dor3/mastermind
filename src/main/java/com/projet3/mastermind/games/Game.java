@@ -156,7 +156,11 @@ public abstract class Game {
 
 
         Game.logger.info("executeGameChallenger with combination secret of computer");
-        //System.out.println("combi secrète" + combiComputerSecret.toString());
+
+        if (Mastermind.gameConfig.getModeDev()) {
+            System.out.println("DEV MODE : Combi secrète" + combiComputerSecret.toString());
+        }
+
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
             System.out.println();
@@ -177,7 +181,11 @@ public abstract class Game {
         ArrayList<Integer> combiPlayerSecret = this.getPlayerSecret();
 
         Game.logger.info( "executeGameDefender with combination secret of player" );
-        //System.out.println("combi secrète" + combiComputerSecret.toString());
+
+        if (Mastermind.gameConfig.getModeDev()) {
+            System.out.println("DEV MODE : Combi secrète" + combiPlayerSecret.toString());
+        }
+
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
             System.out.println();
@@ -199,7 +207,10 @@ public abstract class Game {
 
         Game.logger.info("executeGameDuel with each tour of each player");
 
-        //System.out.println("combi secrète" + combiComputerSecret.toString());
+        if (Mastermind.gameConfig.getModeDev()) {
+            System.out.println("DEV MODE : Combi secrète" + combiComputerSecret.toString());
+        }
+
         for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
             Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
             System.out.println();

@@ -17,7 +17,21 @@ public class Mastermind {
 
     public static void main (String[] args){
 
-        Boolean continueGame = true;
+        if (args.length > 0 && args[0].equals("dev")) {
+            gameConfig.forceModeDev();
+        }
+
+        if (gameConfig.getModeDev()) {
+            System.out.println("*****************");
+            System.out.println("Mode dev activé !");
+            System.out.println("*****************");
+        }
+
+        if (!gameConfig.getModeDev()) {
+            Mastermind.gameConfig.forceErrorLevel();
+        }
+
+        Boolean continueGame;
 
         do {
             GameType gameType = Mastermind.gameTypeChoice();
