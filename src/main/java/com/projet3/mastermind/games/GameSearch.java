@@ -1,5 +1,7 @@
 package com.projet3.mastermind.games;
 
+import com.projet3.mastermind.Mastermind;
+
 import java.util.ArrayList;
 
 public class GameSearch extends Game {
@@ -30,6 +32,13 @@ public class GameSearch extends Game {
         return differences.toString();
     }
 
+    protected Integer getNbItems() {
+        return Mastermind.gameConfig.getNbItemsSearch();
+    }
+
+    protected Integer getNbTrials() {
+        return Mastermind.gameConfig.getNbTrialsSearch();
+    }
 
 }
 

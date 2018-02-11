@@ -15,6 +15,9 @@ public abstract class Game {
 
     protected abstract String hasDifferences(ArrayList<Integer> proposition, ArrayList<Integer> secret);
 
+    protected abstract Integer getNbItems();
+    protected abstract Integer getNbTrials();
+
     protected final static Logger logger = LogManager.getLogger(Game.class.getName());
 
     /**
@@ -88,7 +91,7 @@ public abstract class Game {
 
         Game.logger.info("Generate a random list.");
         ArrayList<Integer> combi = new ArrayList<Integer>();
-        for(int i = 0; i < Mastermind.gameConfig.getNbItems(); i++) {
+        for(int i = 0; i < this.getNbItems(); i++) {
             Double randomDouble = Math.random()* 10;
             Integer randomInt = randomDouble.intValue();
             combi.add(randomInt);
@@ -116,7 +119,7 @@ public abstract class Game {
             ArrayList<Integer> combi = new ArrayList<Integer>();
             String answer = "";
             Boolean hasError = false;
-            System.out.println("Entrez votre " + description + " à " + Mastermind.gameConfig.getNbItems() + " chiffres :");
+            System.out.println("Entrez votre " + description + " à " + this.getNbItems() + " chiffres :");
             answer = scanner.next();
             for (char c : answer.toCharArray()) {
                 int currentDigit = Character.getNumericValue(c);
@@ -125,7 +128,7 @@ public abstract class Game {
                 }
                 combi.add(currentDigit);
             }
-            if (combi.size() == Mastermind.gameConfig.getNbItems() && !hasError) {
+            if (combi.size() == this.getNbItems() && !hasError) {
                 return combi;
             }
         }
@@ -161,8 +164,8 @@ public abstract class Game {
             System.out.println("DEV MODE : Combi secrète" + combiComputerSecret.toString());
         }
 
-        for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
-            Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
+        for (int i = 0; i < this.getNbTrials(); i++) {
+            Integer tryCount = this.getNbTrials() - i;
             System.out.println();
             System.out.println("**********************");
             System.out.println("Tour du joueur (" + tryCount + " essais restants)");
@@ -186,8 +189,8 @@ public abstract class Game {
             System.out.println("DEV MODE : Combi secrète" + combiPlayerSecret.toString());
         }
 
-        for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
-            Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
+        for (int i = 0; i < this.getNbTrials(); i++) {
+            Integer tryCount = this.getNbTrials() - i;
             System.out.println();
             System.out.println("**********************");
             System.out.println("Tour de l'ordinateur (" + tryCount + " essais restants)");
@@ -211,8 +214,8 @@ public abstract class Game {
             System.out.println("DEV MODE : Combi secrète" + combiComputerSecret.toString());
         }
 
-        for (int i = 0; i < Mastermind.gameConfig.getNbTrials(); i++) {
-            Integer tryCount = Mastermind.gameConfig.getNbTrials() - i;
+        for (int i = 0; i < this.getNbTrials(); i++) {
+            Integer tryCount = this.getNbTrials() - i;
             System.out.println();
             System.out.println("**********************");
             System.out.println("Tour de l'ordinateur(" + tryCount + " essais restants)");

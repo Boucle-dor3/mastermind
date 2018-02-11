@@ -1,5 +1,7 @@
 package com.projet3.mastermind.games;
 
+import com.projet3.mastermind.Mastermind;
+
 import java.util.ArrayList;
 
 public class GameMastermind extends Game {
@@ -32,6 +34,14 @@ public class GameMastermind extends Game {
             }
         }
         return presentCount + " présents. " + goodPlaceCount + " biens placés.";
+    }
+
+    protected Integer getNbItems() {
+        return Mastermind.gameConfig.getNbItemsMastermind();
+    }
+
+    protected Integer getNbTrials() {
+        return Mastermind.gameConfig.getNbTrialsMastermind();
     }
 
 }

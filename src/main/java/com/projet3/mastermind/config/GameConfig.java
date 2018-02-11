@@ -14,8 +14,10 @@ public class GameConfig {
 
     private final static Logger logger = LogManager.getLogger(GameConfig.class.getName());
 
-    private Integer nbItems;
-    private Integer nbTrials;
+    private Integer nbItemsMastermind;
+    private Integer nbTrialsMastermind;
+    private Integer nbItemsSearch;
+    private Integer nbTrialsSearch;
     private Boolean modeDev;
 
     private Boolean isForceModeDev = false;
@@ -32,8 +34,10 @@ public class GameConfig {
 
             // access configuration properties
 
-            this.nbItems = config.getInt("nbItems");
-            this.nbTrials = config.getInt("nbTrials");
+            this.nbItemsMastermind = config.getInt("mastermind.nbItems");
+            this.nbTrialsMastermind = config.getInt("mastermind.nbTrials");
+            this.nbItemsSearch = config.getInt("search.nbItems");
+            this.nbTrialsSearch = config.getInt("search.nbTrials");
             this.modeDev = config.getBoolean("modeDev");
 
         }
@@ -44,12 +48,20 @@ public class GameConfig {
 
     }
 
-    public Integer getNbItems () {
-        return this.nbItems;
+    public Integer getNbItemsMastermind() {
+        return this.nbItemsMastermind;
     }
 
-    public Integer getNbTrials () {
-        return this.nbTrials;
+    public Integer getNbTrialsMastermind() {
+        return this.nbTrialsMastermind;
+    }
+
+    public Integer getNbItemsSearch() {
+        return this.nbItemsSearch;
+    }
+
+    public Integer getNbTrialsSearch() {
+        return this.nbTrialsSearch;
     }
 
     public void forceModeDev() {
